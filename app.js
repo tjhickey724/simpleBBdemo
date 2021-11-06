@@ -19,25 +19,32 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-app.use(
+// This show how middleware works ..
+// For any request to '/testmiddleware'
+// the app prints three messages and then sends back a message
+app.use('/testmiddleware'
   (req,res,next) => {
     console.log('Look, I got called!!!!')
     next()
   },
+
   (req,res,next) => {
     console.log('Me Too!!!!')
     next()
   },
+
   (req,res,next) => {
     console.log('Me three !!!!')
     next()
   },
 
+  (req,res) => {
+    res.send("This is a middleware test!")
+  }
+
 )
 
+// this show how to use res.json to send back a json term
 app.get('/hello',
   async (req,res,next) => {
     try{
@@ -50,6 +57,9 @@ app.get('/hello',
     }
   })
 
+// this shows how to maintain local state on the server
+// and send the state to the client, but restarting the server
+// resets the state, so it doesn't persist!
 let counter = 0
 app.get('/counter',
   async (req,res,next) => {
@@ -62,10 +72,18 @@ app.get('/counter',
     }
   })
 
+// here is another example of maintaining local state
+// in this case, a list of message,
+// as long as the server is not restarted
+// we have two routes
+//   a get route to return all the messages
+//   a post route to add a new message
+// restarting the server resets messages to []
+// so the messages don't really persist
 let messages = []
-
 app.get('/bboard',
   async (req,res,next) => {
+
     try{
 
       res.json(messages)
@@ -86,6 +104,8 @@ app.post('/bboard',
       next(e)
     }
   })
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
