@@ -4,8 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 var app = express();
 
@@ -19,10 +17,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/', (req,res) => {
+  res.send("This is a simple demo app for CS153a Fall21 at Brandeis!")
+})
+
 // This show how middleware works ..
 // For any request to '/testmiddleware'
 // the app prints three messages and then sends back a message
-app.use('/testmiddleware'
+app.use('/testmiddleware',
   (req,res,next) => {
     console.log('Look, I got called!!!!')
     next()
