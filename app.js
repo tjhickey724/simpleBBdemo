@@ -269,7 +269,7 @@ app.post('/posts',
     try {
       const bboard = req.body.bboard
       const posts =
-        await Post.find({bboard})
+        await Post.find({bboard}).sort({createdAt:-1})
       console.dir(posts)
       res.json(posts)
     } catch(e){
