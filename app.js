@@ -27,7 +27,7 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const mongoose = require( 'mongoose' );
-const mongoDBremoteURI = 'mongodb+srv://tjhickey:WcaLKkT3JJNiN8dX@cluster0.kgugl.mongodb.net/atlasAuthDemo?retryWrites=true&w=majority'
+const mongoDBremoteURI = 'put your cloud DB URI here'
 const mongoDBlocalURI = 'mongodb://localhost/bboard'
 const mongodbURI = (process.env.MONGODB_URL || mongoDBlocalURI)
 
