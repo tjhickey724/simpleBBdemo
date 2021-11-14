@@ -39,6 +39,9 @@ db.once('open', function() {
   console.log(mongodbURI)
 });
 
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
 const User = require('./models/User')
 const Post = require('./models/Post')
 
@@ -54,7 +57,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/testemail',
+  async (req,res,next) => {
+    try {
+      const msg = {
+        to: 'timhickey@me.com', // Change to your recipient
+        from: 'tjhickey@brandeis.edu', // Change to your verified sender
+        subject: 'Sending with SendGrid is Fun',
+        text: 'and easy to do anywhere, even with Node.js',
+        //html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+      }
+      await sgMail.send(msg)
+      console.log('Email sent')
+      res.send('sent email!')
+    }catch(error){
+      next(error)
+    }
 
+  })
 
 // the user sends an email and the server
 // creates a secret and puts the secret and email
