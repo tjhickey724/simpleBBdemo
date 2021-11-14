@@ -63,8 +63,8 @@ app.get('/testemail',
       const msg = {
         to: 'timhickey@me.com', // Change to your recipient
         from: 'tjhickey@brandeis.edu', // Change to your verified sender
-        subject: 'Sending with SendGrid is Fun',
-        text: 'and easy to do anywhere, even with Node.js',
+        subject: 'Testing email from heroku server',
+        text: 'if you got this then it worked on '+(new Date()),
         //html: '<strong>and easy to do anywhere, even with Node.js</strong>',
       }
       await sgMail.send(msg)
