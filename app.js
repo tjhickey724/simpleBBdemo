@@ -112,7 +112,7 @@ app.post('/register',
       // respond to the user, sending them the email and secret
       // they will store it in Async Storage
       // and use it to identify themselves in all future calls
-      res.json({email:user.email, secret:user.secret})
+      res.json({email:user.email, secret:user.secret, userid:user._id})
       } catch(e){
       next(e)
     }
