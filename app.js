@@ -203,6 +203,31 @@ app.post('/posts',
     }
 })
 
+app.post('/deletePost',
+  async (req,res,next) => {
+    try {
+      console.log('entering deletePost')
+      const email = req.body.email
+      const secret = req.body.secret
+      const postid = req.body.postid
+      console.log('in deletePost')
+      const user = await User.findOne({email,secret})
+      console.log('found user '+user._id)
+      const post =
+        await Post.findOne({_id:postid})
+      console.log('found post author= '+post.author)
+      console.dir(post)
+      if (post && user && post.author==user.id) {
+        await Post.deleteOne({_id:postid})
+        res.json({action:'deleted'})
+      } else {
+        res.json({action:'failed',msg:'you do not own the post'})
+      }
+    } catch(e){
+      next(e)
+    }
+})
+
 // how would we find all of the bulletin boards ...
 // and send back a list of bboard names?
 const getBBoardNames = async (next) => {
